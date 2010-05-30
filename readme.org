@@ -1,0 +1,6 @@
+
+* SelSo jQuery plugin
+  A plugin to sort selections.
+
+* Doc / Example
+  clone the repo and open the test/test.htm file in a browser.
