@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> 
+<head>
+<title>Essai selso 1.0</title>
+
+<style type="text/css">
+*{
+padding:0;
+margin:0;
+font-family:sans-serif;}
+
+body{
+background:#DDD;
+font-size:11pt;}
+
+div#all{
+text-align:justify;
+padding:15px;
+background:white;
+max-width:750px;}
+
+h1,h3,p{
+margin:0.5em 0;}
+
+p{
+max-width:60ex;
+text-align:justify;
+text-indent:3ex;}
+
+pre{
+background:#EEE;
+border:1px dashed gray;
+font-family:monospace;}
+
+ul{
+margin:0 30px;
+font-size:80%;
+background:#EEE;
+list-style:none;
+border-left:1px solid gray;
+border-bottom:1px solid gray;}
+
+li{
+border-top:1px solid gray;}
+
+div.details{
+padding:1em;
+background:#f8f8f8;
+display:none;}
+
+span.num{
+display:block;
+float:left;
+text-align:right;
+width:3em;}
+span.alpha{
+font-weight:bold;}
+span.plus{
+display:block;
+float:left;
+font-weight:bold;
+cursor:pointer;
+background:black;
+color:white;
+opacity:0.5;}
+span.plus:hover{
+opacity:1;}
+</style>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="../src/jquery.selso.js"></script>
+<script type="text/javascript">
+var options;
+
+var selso = function(){
+	$.extend(options,{direction:$(':radio:checked').val()});
+	$(':checkbox:checked').next('ul').find('li').selso(options);
+};
+
+var orderByNum=function(){
+	options = {type:'num',orderBy:'span.num'};
+	selso();
+};
+
+var orderByAlpha=function(){
+	options = {type:'alpha',orderBy:'span.alpha'};
+	selso();
+};
+
+var orderByAccents=function(){
+	options = {type:'accents',orderBy:'span.alpha'};
+	selso();
+};
+
+var orderById = function(){
+	options = {
+		type:'num',
+		extract:function(o){return $(o).attr('id').substring(2);}
+	};
+	selso();
+};
+
+var orderByLength = function(){
+	options = {
+		type:'num',
+		extract:function(o){return $('span.alpha',o).text().length;}
+	};
+	selso();
+};
+
+$(function(){
+$('li').prepend('<span class="plus">+/-</span>').each(function(){$(this).append('<div class="details">This <i>li</i> has an id of '+this.id+'<br/>and a name of '+$('span.alpha',this).text()+'</div>')});
+$('.plus').click(function(){$(this).siblings('div.details').slideToggle();});
+});
+</script>
+</head>
+
+<body>
+<center><div id="all">
+<h1>SelSo 1.0 - a <i>Sel</i>ection <i>So</i>rter</h1>
+
+<p>This is selso, a selection sorter plugin for <a href="http://www.jquery.com">jQuery</a>.</p>
+
+<p>The need for this plugin came to me when I needed list elements to
+be reordered on the client-side according to different information
+they displayed (<i>id est</i> a name of a person and her age).</p>
+
+<p>
+This plugin allows you to re-order <em>any</em> jquery selection within 
+their own parent element. It's particularly intended for lists in my case, 
+but you can reorder paragraphs inside of divs, spans inside of paragraphs, 
+even rows inside of tables, although in that case you might prefer to take
+a look at the tablesorter plugin.
+</p>
+
+<p>The little example given here gives a good overview of what the
+plugin will do, and how to use it.</p>
+
+<p><strong>Note :</strong> anybody also looking for a stable sorting 
+function in firefox, i did one in this plugin, it's $.selso.stablesort.</p>
+
+<hr/>
+
+<h3>Example</h3>
+
+<h4>List 1</h4>
+<input type="checkbox" checked="checked"/> Sort this list
+<ul id='con'>
+  <li id='li9'><span class="num">7</span> - <span class="alpha">Un</span> li</li>
+  <li id='li6'><span class="num">12</span> - <span class="alpha">Deux</span> lis</li>
+
+  <li id='li3'><span class="num">8</span> - <span class="alpha">Trois</span> lis</li>
+  <li id='li12'><span class="num">3</span> - <span class="alpha">Quatre</span> li</li>
+  <li id='li5'><span class="num">1</span> - <span class="alpha">Cinq</span> lis</li>
+
+  <li id='li8'><span class="num">9</span> - <span class="alpha">Six</span> lis</li>
+  <li id='li7'><span class="num">4</span> - <span class="alpha">Sept</span> li</li>
+  <li id='li4'><span class="num">6</span> - <span class="alpha">Huit</span> lis</li>
+
+  <li id='li1'><span class="num">7</span> - <span class="alpha">Neuf</span> lis</li>
+  <li id='li10'><span class="num">2</span> - <span class="alpha">Dix</span> li</li>
+  <li id='li2'><span class="num">10</span> - <span class="alpha">Onze</span> lis</li>
+
+  <li id='li11'><span class="num">5</span> - <span class="alpha">Douze</span> lis</li>
+</ul>
+
+<h4>List 2</h4>
+<input type="checkbox" checked="checked"/> Sort this list
+<ul id='con2'>
+  <li id='la9'><span class="num">7</span> - <span class="alpha">André</span></li>
+
+  <li id='la6'><span class="num">12</span> - <span class="alpha">Éric</span></li>
+  <li id='la3'><span class="num">8</span> - <span class="alpha">Christo</span></li>
+  <li id='la12'><span class="num">3</span> - <span class="alpha">Eddy</span></li>
+
+  <li id='la5'><span class="num">1</span> - <span class="alpha">Gilles</span></li>
+  <li id='la8'><span class="num">9</span> - <span class="alpha">Andra</span></li>
+  <li id='la7'><span class="num">4</span> - <span class="alpha">Bidioule</span></li>
+
+  <li id='la4'><span class="num">3</span> - <span class="alpha">Céline</span></li>
+  <li id='la1'><span class="num">7</span> - <span class="alpha">Eryn</span></li>
+  <li id='la10'><span class="num">2</span> - <span class="alpha">Andro</span></li>
+
+  <li id='la2'><span class="num">10</span> - <span class="alpha">Hugues</span></li>
+  <li id='la11'><span class="num">5</span> - <span class="alpha">Ça c'est sûr</span></li>
+</ul>
+<h4>Sort the checked lists by</h4>
+<input type="button" value="num" onclick="orderByNum()"/>
+<input type="button" value="alpha" onclick="orderByAlpha()"/>
+
+<input type="button" value="accents" onclick="orderByAccents()"/>
+<input type="button" value="id" onclick="orderById()"/>
+<input type="button" value="length" onclick="orderByLength()"/><br/>
+Order direction :
+<input type="radio" value="asc" name="direction" checked="checked"/> Asc | 
+<input type="radio" value="desc" name="direction"/>Desc 
+<hr/>
+
+<p>You might need at the source code to check exactly what the 'id'
+button is doing : it's sorting the li's according to their id
+attribute, which goes like : liX or laX where X is a number from 1 to 12.</p>
+
+<p>Each of this button is attached with one of these functions below.
+As you can sse in the last one, you can specify an extract function, that
+will use the current element of the jquery selection to build the corresponding 
+value that will later be sorted.</p>
+
+<p>The inline doc of the source file will also tell you about a way to
+specify an ordering function to give to the Array.sort() method, which 
+is used to perform the sorting.</p>
+
+<pre>
+var options;
+
+var selso = function(){
+	$.extend(options,{direction:$(':radio:checked').val()});
+	$(':checkbox:checked').next('ul').find('li').selso(options);
+};
+
+var orderByNum=function(){
+	options = {type:'num',orderBy:'span.num'};
+	selso();
+};
+
+var orderByAlpha=function(){
+	options = {type:'alpha',orderBy:'span.alpha'};
+	selso();
+};
+
+var orderByAccents=function(){
+	options = {type:'accents',orderBy:'span.alpha'};
+	selso();
+};
+
+var orderById = function(){
+	options = {
+		type:'num',
+		extract:function(o){return $(o).attr('id').substring(2);}
+	};
+	selso();
+};
+
+var orderByLength = function(){
+	options = {
+		type:'num',
+		extract:function(o){return $('span.alpha',o).text().length;}
+	};
+	selso();
+};
+</pre>
+
+
+<p>Any suggestion or remark greatly appreciated.</p>
+<hr>
+<address>subtenante aat yahoo doot fr</address>
+<!-- hhmts start --> Last modified: Fri Sep 18 12:04:55 China Standard Time 2007 <!-- hhmts end -->
+</div></center>
+</body> </html>
+
