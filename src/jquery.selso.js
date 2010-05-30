@@ -100,7 +100,7 @@
 				r = r.replace(new RegExp(/[μνξο]/g),"i");
 				r = r.replace(new RegExp(/ρ/g),"n");				
 				r = r.replace(new RegExp(/[ςστυφ]/g),"o");
-				r = r.replace(new RegExp(//g),"oe");
+				r = r.replace(new RegExp(/½/g),"oe");
 				r = r.replace(new RegExp(/[ωϊϋό]/g),"u");
 				r = r.replace(new RegExp(/[ύÿ]/g),"y");
 				r = r.replace(new RegExp(/\W/g),"");
