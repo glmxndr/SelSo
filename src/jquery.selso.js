@@ -1,6 +1,6 @@
-ï»¿/*
- * SelSo 1.0 - Client-side selection sorter
- * Version 1.0.1
+/*
+ * SelSo 1.0.2 - Client-side selection sorter
+ * Version 1.0.2
  * 
  * Copyright (c) 2007 Guillaume Andrieu
  * Dual licensed under the MIT and GPL licenses:
@@ -14,6 +14,13 @@
  * @description Takes a selection, for example some li elements in a ul, 
  * and sorts them according to the value of some classed element 
  * they all share. The elements of the selection must have an id attribute.
+ * 
+ * This version contains a bug-fix, now selso does not remove the events
+ * attached to the sorted elements. See http://plugins.jquery.com/node/2019.
+ *
+ * It also contains a modification given by Gerardo Contijoch, which is the reason
+ * for the 1.0.2 version : now a sorted element does not require to contain an id
+ * attribute, while it previously needed one.
  *
  * @example $('li').selso({type:'num' , orderBy:'span.value'});
  * @desc Will sort all the li's elements in their respective ul, according to 
@@ -86,16 +93,16 @@
 			accentsTidy: function(s){
 				var r=s.toLowerCase();
 				r = r.replace(new RegExp(/\s/g),"");
-				r = r.replace(new RegExp(/[Ã Ã¡Ã¢Ã£Ã¤Ã¥]/g),"a");
-				r = r.replace(new RegExp(/Ã¦/g),"ae");
-				r = r.replace(new RegExp(/Ã§/g),"c");
-				r = r.replace(new RegExp(/[Ã¨Ã©ÃªÃ«]/g),"e");
-				r = r.replace(new RegExp(/[Ã¬Ã­Ã®Ã¯]/g),"i");
-				r = r.replace(new RegExp(/Ã±/g),"n");				
-				r = r.replace(new RegExp(/[Ã²Ã³Ã´ÃµÃ¶]/g),"o");
-				r = r.replace(new RegExp(/Å“/g),"oe");
-				r = r.replace(new RegExp(/[Ã¹ÃºÃ»Ã¼]/g),"u");
-				r = r.replace(new RegExp(/[Ã½Ã¿]/g),"y");
+				r = r.replace(new RegExp(/[àáâãäå]/g),"a");
+				r = r.replace(new RegExp(/æ/g),"ae");
+				r = r.replace(new RegExp(/ç/g),"c");
+				r = r.replace(new RegExp(/[èéêë]/g),"e");
+				r = r.replace(new RegExp(/[ìíîï]/g),"i");
+				r = r.replace(new RegExp(/ñ/g),"n");				
+				r = r.replace(new RegExp(/[òóôõö]/g),"o");
+				r = r.replace(new RegExp(/œ/g),"oe");
+				r = r.replace(new RegExp(/[ùúûü]/g),"u");
+				r = r.replace(new RegExp(/[ýÿ]/g),"y");
 				r = r.replace(new RegExp(/\W/g),"");
 				return r;
 			},
@@ -140,9 +147,12 @@
 			return null;
 		},
 		
+		// thanks to alpar
 		prependToParent : function(){
 			return this.each(function(){
-				$(this).parent().prepend($(this).remove());
+				obj=$(this);
+				obj.parent().prepend(obj.clone(true));
+				obj.remove();
 			});
 		},
 		
@@ -162,8 +172,8 @@
 
 			var arr = [];
 			this.each(function(){
-				arr.unshift({
-					id:this.id,
+			    arr.unshift({
+					obj:this, // now we keep a reference of the object and not its id
 					val:te(this)
 				});
 			});
@@ -182,9 +192,9 @@
 			var off=of;
 			if(td=='asc'){off = function(a,b){return -1*of(a,b);}}
 			arr = $.selso.stablesort(arr,off);
-			
-			for (var i=0;i<arr.length;i++){
-				$('#'+arr[i].id).prependToParent();
+
+			for (var i = 0; i < arr.length; i++) {
+			    $(arr[i].obj).prependToParent();
 			}
 
 			return this;
