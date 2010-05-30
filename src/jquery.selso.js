@@ -1,5 +1,5 @@
-/*
- * SelSo 1.0.1 - Client-side selection sorter
+ï»¿/*
+ * SelSo 1.0 - Client-side selection sorter
  * Version 1.0.1
  * 
  * Copyright (c) 2007 Guillaume Andrieu
@@ -86,16 +86,16 @@
 			accentsTidy: function(s){
 				var r=s.toLowerCase();
 				r = r.replace(new RegExp(/\s/g),"");
-				r = r.replace(new RegExp(/[àáâãäå]/g),"a");
-				r = r.replace(new RegExp(/æ/g),"ae");
-				r = r.replace(new RegExp(/ç/g),"c");
-				r = r.replace(new RegExp(/[èéêë]/g),"e");
-				r = r.replace(new RegExp(/[ìíîï]/g),"i");
-				r = r.replace(new RegExp(/ñ/g),"n");				
-				r = r.replace(new RegExp(/[òóôõö]/g),"o");
-				r = r.replace(new RegExp(/œ/g),"oe");
-				r = r.replace(new RegExp(/[ùúûü]/g),"u");
-				r = r.replace(new RegExp(/[ýÿ]/g),"y");
+				r = r.replace(new RegExp(/[Ã Ã¡Ã¢Ã£Ã¤Ã¥]/g),"a");
+				r = r.replace(new RegExp(/Ã¦/g),"ae");
+				r = r.replace(new RegExp(/Ã§/g),"c");
+				r = r.replace(new RegExp(/[Ã¨Ã©ÃªÃ«]/g),"e");
+				r = r.replace(new RegExp(/[Ã¬Ã­Ã®Ã¯]/g),"i");
+				r = r.replace(new RegExp(/Ã±/g),"n");				
+				r = r.replace(new RegExp(/[Ã²Ã³Ã´ÃµÃ¶]/g),"o");
+				r = r.replace(new RegExp(/Å“/g),"oe");
+				r = r.replace(new RegExp(/[Ã¹ÃºÃ»Ã¼]/g),"u");
+				r = r.replace(new RegExp(/[Ã½Ã¿]/g),"y");
 				r = r.replace(new RegExp(/\W/g),"");
 				return r;
 			},
